@@ -1,8 +1,8 @@
 {
-  "name": "regatta-device",
+  "name": "scully-device",
   "version": "0.1.0",
-  "author": "Baiyin Zhou <baiyinzhou@gmail.com>",
-  "description": "Device code for the Regatta project",
+  "author": "Jeremy Foster <jeremy.foster@live.com>",
+  "description": "Device code for the Scully project",
   "main": "index.js",
   "dependencies": {
     "@types/config": "0.0.29",
@@ -31,12 +31,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stephshelley/regatta-device.git"
+    "url": "git+https://github.com/codefoster/scully-device.git"
   },
   "keywords": [],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/stephshelley/regatta-device/issues"
+    "url": "https://github.com/codefoster/scully-device/issues"
   },
-  "homepage": "https://github.com/stephshelley/regatta-device#readme"
+  "homepage": "https://github.com/codefoster/scully-device#readme"
 }
