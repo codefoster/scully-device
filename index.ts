@@ -30,7 +30,7 @@ let waterrower = new WaterRower({ datapoints: ['ms_distance', 'm_s_total', 'm_s_
 
 log(`Using ${name} as rower name.`);
 log(`Attempting to connect to ${socketServerUrl}`);
-if (simulationMode) log('This Regatta machine is running in simulation mode.');
+if (simulationMode) log('This machine is running in simulation mode.');
 
 //wire up to the socket server
 var socket = io(socketServerUrl);
