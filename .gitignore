@@ -27,9 +27,5 @@ build/Release
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 
-#ignoring the local.json file in config
-config/local*.json
-
 *.js
 *.js.map
-config/local.json

@@ -1,0 +1,5 @@
+{
+    "simulationMode": true,
+    "autoStart": true,
+    "socketServerUrl": "http://localhost:8080"
+}
