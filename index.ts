@@ -56,10 +56,11 @@ function start(distance: number) {
 }
 
 //subscribe to the waterrower datapoints stream
-waterrower.datapoints$.subscribe(() => {
+waterrower.datapoints$.subscribe(d => {
     //we're only interested in four datapoints
     let values = waterrower.readDataPoints(['ms_distance', 'm_s_total', 'm_s_average', 'total_kcal']);
     let msg = {
+        time: d.time,
         message: "strokedata",
         name: name,
         ms_distance: values['ms_distance'],
