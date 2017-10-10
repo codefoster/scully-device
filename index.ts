@@ -32,10 +32,13 @@ log(`Using ${name} as rower name.`);
 log(`Attempting to connect to ${socketServerUrl}`);
 if (simulationMode) log('This machine is running in simulation mode.');
 
+let subs = [];
+
 //wire up to the socket server
 var socket = io(socketServerUrl);
 socket.on('connect', () => {
     //send a check-in message so the rower can be added to the list
+    console.log('sending rower-checkin message')
     socket.send({ message: 'rower-checkin', name: name });
 });
 
@@ -43,20 +46,21 @@ socket.on('connect', () => {
 socket.on("message", data => {
 
     //if it's a session-start then start the rower
-    if (data.message == 'session-start') start(data.distance);
+    // if (data.message == 'session-start') start(data.distance);
 });
 
-if (autoStart) start(150);
+if (autoStart) start(500);
 
 //start the rower
 function start(distance: number) {
+    subs.forEach(s => s.unsubscribe());
     waterrower.reset();
     waterrower.defineDistanceWorkout(distance);
     if (simulationMode) waterrower.startSimulation();
 }
 
 //subscribe to the waterrower datapoints stream
-waterrower.datapoints$.subscribe(d => {
+subs.push(waterrower.datapoints$.subscribe(d => {
     //we're only interested in four datapoints
     let values = waterrower.readDataPoints(['ms_distance', 'm_s_total', 'm_s_average', 'total_kcal']);
     let msg = {
@@ -68,13 +72,13 @@ waterrower.datapoints$.subscribe(d => {
         m_s_average: values['m_s_average'] / 100, //convert cm to m
         total_kcal: values['total_kcal'] / 1000 //convert to calories
     };
-    console.log(msg);
+    // console.log(msg.ms_distance);
 
     //send sockets
     socket.send(msg);
 
     log(`Sent ${JSON.stringify(msg)}`, LogLevel.Debug);
-});
+}));
 
 function log(msg: string, level: LogLevel = LogLevel.Information) {
     if (level >= logLevel) console.log(msg);
