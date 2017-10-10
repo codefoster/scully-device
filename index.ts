@@ -54,6 +54,7 @@ function start(distance: number) {
     waterrower.defineDistanceWorkout(distance);
     if (simulationMode) waterrower.startSimulation();
 }
+let num = Math.floor(Math.random()*10 - 5); 
 
 //subscribe to the waterrower datapoints stream
 waterrower.datapoints$.subscribe(() => {
@@ -62,7 +63,7 @@ waterrower.datapoints$.subscribe(() => {
     let msg = {
         message: "strokedata",
         name: name,
-        ms_distance: values['ms_distance'],
+        ms_distance: values['ms_distance'] + num,
         m_s_total: values['m_s_total'] / 100, //convert cm to m
         m_s_average: values['m_s_average'] / 100, //convert cm to m
         total_kcal: values['total_kcal'] / 1000 //convert to calories
