@@ -24,6 +24,9 @@ let simulationMode = args["m"]
 let autoStart = args["a"]
     || args["auto-start"]
     || (config.has('autoStart') ? config.get('autoStart') : false);
+let boostMode = args["b"]
+    || args["boost"]
+    || (config.has('boost') ? config.get('boost') : false)
 
 //create waterrower
 let waterrower = new WaterRower({ datapoints: ['ms_distance', 'm_s_total', 'm_s_average', 'total_kcal'] });
@@ -58,7 +61,15 @@ function start(distance: number) {
     waterrower.defineDistanceWorkout(distance);
     if (simulationMode) waterrower.startSimulation();
 }
-let num = Math.floor(Math.random()*10 - 5); 
+
+//every 3-9s change the random factor
+let k = Math.random() * 2;
+setInterval(() => {
+    if(Math.random() > 0.97) {
+        k *= 1.4;
+        console.log(`BOOST! (k=${k}`);
+    }
+}, 1000)
 
 //subscribe to the waterrower datapoints stream
 subs.push(waterrower.datapoints$.subscribe(d => {
@@ -68,7 +79,7 @@ subs.push(waterrower.datapoints$.subscribe(d => {
         time: d.time,
         message: "strokedata",
         name: name,
-        ms_distance: values['ms_distance'] + num,
+        ms_distance: values['ms_distance'] * k,
         m_s_total: values['m_s_total'] / 100, //convert cm to m
         m_s_average: values['m_s_average'] / 100, //convert cm to m
         total_kcal: values['total_kcal'] / 1000 //convert to calories
